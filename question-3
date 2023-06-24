@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+// Define the structure for student
+struct student {
+    char name[50];
+    int rollNo;
+    struct tm birthdate;
+    struct tm admissionDate;
+};
+
+int main() {
+    struct student std;
+    time_t t = time(NULL);
+    struct tm today = *localtime(&t);
+
+    printf("Enter student name: ");
+    scanf("%s", std.name);
+
+    printf("Enter student roll number: ");
+    scanf("%d", &std.rollNo);
+
+    printf("Enter student birth date in dd/mm/yyyy format: ");
+    scanf("%d/%d/%d", &std.birthdate.tm_mday, &std.birthdate.tm_mon, &std.birthdate.tm_year);
+    std.birthdate.tm_mon -= 1;
+    std.birthdate.tm_year -= 1900;
+
+    printf("Enter student admission date in dd/mm/yyyy format: ");
+    scanf("%d/%d/%d", &std.admissionDate.tm_mday, &std.admissionDate.tm_mon, &std.admissionDate.tm_year);
+    std.admissionDate.tm_mon -= 1;
+    std.admissionDate.tm_year -= 1900;
+
+    // Calculate age at the time of admission
+    double seconds = difftime(mktime(&std.admissionDate), mktime(&std.birthdate));
+    double years = seconds / (60 * 60 * 24 * 365.25);
+    int age = (int) years;
+
+    printf("\nStudent Name: %s", std.name);
+    printf("\nRoll No: %d", std.rollNo);
+    printf("\nDate of Birth: %02d/%02d/%04d", std.birthdate.tm_mday, std.birthdate.tm_mon + 1, std.birthdate.tm_year + 1900);
+    printf("\nDate of Admission: %02d/%02d/%04d", std.admissionDate.tm_mday, std.admissionDate.tm_mon + 1, std.admissionDate.tm_year + 1900);
+    printf("\nAge at the time of Admission: %d years", age);
+
+    return 0;
+}
