@@ -1,0 +1,118 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_BOOKS 100
+
+// Book structure
+struct Book {
+    char title[100];
+    char author[100];
+    int book_id;
+    float price;
+    int year;
+};
+
+// Function prototypes
+void add_book(struct Book books[], int *count);
+void display_books(struct Book books[], int count);
+void list_books_by_author(struct Book books[], int count);
+void list_book_count(int count);
+
+int main() {
+    struct Book books[MAX_BOOKS];
+    int count = 0;
+    int choice;
+    
+    do {
+        // Display the menu
+        printf("\n\nLibrary Management System\n");
+        printf("-----------------------------------------\n");
+        printf("1. Add book details\n");
+        printf("2. Display book details\n");
+        printf("3. List all books of given author\n");
+        printf("4. List the count of books in the library\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        
+        switch(choice) {
+            case 1:
+                add_book(books, &count);
+                break;
+            case 2:
+                display_books(books, count);
+                break;
+            case 3:
+                list_books_by_author(books, count);
+                break;
+            case 4:
+                list_book_count(count);
+                break;
+            case 5:
+                printf("Exiting program...\n");
+                exit(0);
+            default:
+                printf("Invalid choice!\n");
+        }
+    } while(choice != 5);
+    
+    return 0;
+}
+
+void add_book(struct Book books[], int *count) {
+    if (*count >= MAX_BOOKS) {
+        printf("Sorry, the library is full!\n");
+        return;
+    }
+    
+    struct Book new_book;
+    
+    printf("\nEnter book title: ");
+    scanf("%s", new_book.title);
+    
+    printf("Enter book author: ");
+    scanf("%s", new_book.author);
+    
+    printf("Enter book ID: ");
+    scanf("%d", &new_book.book_id);
+    
+    printf("Enter book price: ");
+    scanf("%f", &new_book.price);
+    
+    printf("Enter year of publication: ");
+    scanf("%d", &new_book.year);
+    
+    books[*count] = new_book;
+    (*count)++;
+    
+    printf("\nBook details added successfully!\n");
+}
+
+void display_books(struct Book books[], int count) {
+    if (count == 0) {
+        printf("No books in the library!\n");
+        return;
+    }
+    
+    printf("\n%-30s %-20s %-10s %-10s %-10s\n", "Title", "Author", "Book ID", "Price", "Year");
+    printf("--------------------------------------------------------------------------------------------------------\n");
+    
+    for (int i = 0; i < count; i++) {
+        printf("%-30s %-20s %-10d %-10.2f %-10d\n", books[i].title, books[i].author, books[i].book_id, books[i].price, books[i].year);
+    }
+}
+
+void list_books_by_author(struct Book books[], int count) {
+    if (count == 0) {
+        printf("No books in the library!\n");
+        return;
+    }
+    
+    char author[100];
+    int found = 0;
+    
+    printf("\nEnter author name: ");
+    scanf("%s", author);
+    
+    printf("\n%-30s %-20s %-10s %-10s %-10s\n", "Title", "Author
